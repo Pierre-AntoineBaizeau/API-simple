@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Cours</h1>
+  
+    <section id="cours_cards">
+
+    </section>
+    <script>
+  function createNode(element) {
+    return document.createElement(element);
+}
+
+function append(parent, el) {
+  return parent.appendChild(el);
+}
+
+const section = document.getElementById('cours_cards');
+const url = 'http://127.0.0.1:8000/api/cours';
+
+fetch(url)
+.then((resp) => resp.json())
+.then(function(data) {
+  let cours = data;
+  return cours.map(function(cour) {
+    let card = createNode('div');
+    let nom = createNode('h3');
+    let image_url = createNode('img');
+    let description = createNode('p');
+    let programme = createNode('p');
+    let year = createNode('p');
+    let date_debut= createNode('p');
+    let date_fin = createNode('p');
+
+    
+    image_url.src = `${cour.image_url}`;
+    nom.innerHTML = `Cours: ${cour.nom}`;
+    description.innerHTML = `${cour.description}`;
+    programme.innerHTML = `Programme: ${cour.programme}`;
+    year.innerHTML = `Année: ${cour.year}`;
+    date_debut.innerHTML = `Date de début: ${cour.date_debut}`;
+    date_fin.innerHTML = `Date de fin: ${cour.date_fin}`;
+
+    append(card, image_url);
+    append(card, nom);
+    append(card, description);
+    append(card, programme);
+    append(card, year);
+    append(card, date_debut);
+    append(card, date_fin);
+    append(section, card);
+
+  })
+})
+.catch(function(error) {
+  console.log(error);
+});
+    </script>
+
+</body>
+
+</html>
